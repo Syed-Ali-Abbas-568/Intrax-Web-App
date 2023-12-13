@@ -1,0 +1,97 @@
+/* Login.css */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .login-container {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+    background-color: #352555;
+    color: white;
+  }
+  
+  .branding {
+    margin-left: 10%;
+    margin-top: 5%;
+    margin-bottom: 2%;
+  }
+  
+  .login-form {
+    width: 45%;
+    margin-top: 15%;
+    border-radius: 8px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 5px;
+  }
+  
+  button.login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #53BCAA;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Add a smooth transition effect */
+  }
+  
+  button.login-button:hover {
+    background-color: #408e86; /* Change the background color on hover */
+  }
+  
+  .right-column {
+    width: 45%;
+    padding-top: 15%;
+    padding-left: 5%;
+  }
+  
+  /* Media Query for smaller screens (e.g., mobile phones) */
+  @media (max-width: 768px) {
+    .login-container {
+      flex-direction: column; /* Change to column layout for smaller screens */
+      align-items: center; /* Center items horizontally */
+      text-align: center; /* Center text */
+      height: 120%;
+    }
+  
+    .login-form {
+      width: 90%; /* Adjust width for better mobile responsiveness */
+      margin: 10% auto; /* Center the form vertically */
+    }
+  
+    .right-column {
+      width: 90%; /* Adjust width for better mobile responsiveness */
+      margin: 5% auto; /* Center the column vertically */
+      text-align: center;
+      padding-top: 0%;
+    }
+    .right-column h4 {
+        margin-right: 15%; /* Adjust the top margin of the h4 element */
+    }
+    .right-column p {
+        margin-right: 10%; /* Adjust the top margin of the h4 element */
+    }
+    .branding h1 {
+        margin-right: 55px;
+    }
+  }
+  
