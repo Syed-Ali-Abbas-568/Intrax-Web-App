@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import MapIcon from '@mui/icons-material/Map';
@@ -25,6 +26,7 @@ export default function CustomDrawer() {
     left: false,
   });
   const navigate = useNavigate();  // Initialize useNavigate
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -42,7 +44,14 @@ export default function CustomDrawer() {
     if (text === 'Logout') {
       handleLogoutClick();  // Call handleLogoutClick for the Logout button
     }
+    else if(text === 'Drivers') {
+      navigate('/drivers');
+    } else if (text === 'Monitoring') {
+      navigate('/homepage');
+    }
+    // Add other conditions for different list items
   };
+
   const handleLogoutClick = () => {
     // Perform any logout logic if needed
     // ...
@@ -102,6 +111,7 @@ export default function CustomDrawer() {
       {/* Section 2: Navigation Buttons */}
       <List sx={{ backgroundColor: 'white', color: '#352555' }}>
         {[
+          { text: 'Monitoring', icon: <VisibilityIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Monitoring') },
           { text: 'Drivers', icon: <DirectionsBusIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Drivers') },
           { text: 'Assignments', icon: <AssignmentIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Assignments') },
           { text: 'Routes', icon: <MapIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Routes') },
