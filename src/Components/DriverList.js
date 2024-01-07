@@ -3,19 +3,34 @@ import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
 import { FaTrash, FaEdit } from 'react-icons/fa';
+import { deleteDrivers, updateDrivers } from '../services/DriverRequests';
 
-const DriverList = ({ drivers, addDriver }) => {
-  const [isAddDriverFormOpen, setAddDriverFormOpen] = useState(false);
+import DriverForm from './DriverForm';
+
+const DriverList = ({ drivers, addDriver, fetchDriver }) => {
+  const [isAddDriverFormOpen, setAddDriverFormOpen] = useState(0);
+
+
+
+
   const [newDriver, setNewDriver] = useState({
-    fullname: '',
+    name: '',
     email: '',
     phone: '',
     cnic: '',
     gender: '',
+    status: '',
   });
 
   const handleAddDriverClick = () => {
-    setAddDriverFormOpen(true);
+    setAddDriverFormOpen(1);
+  };
+
+
+  const handleEditDriverClick = (driver) => {
+    setNewDriver(driver)
+    setAddDriverFormOpen(2);
+
   };
 
   const handleFormChange = (e) => {
@@ -55,33 +70,64 @@ const DriverList = ({ drivers, addDriver }) => {
     const errors = {};
 
     Object.entries(newDriver).forEach(([key, value]) => {
-      if (value.trim() === '') {
-        errors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
+      if (typeof value === 'string') {
+
+        if (value.trim() === '') {
+          errors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
+        }
+      }
+      else {
+        console.error('Error: value is not a string');
       }
     });
 
     return errors;
   };
 
-  const handleAddDriverSubmit = () => {
+
+  const handleCancelSubmit = () => {
+    // Clear the form and close it
+    setNewDriver({
+      name: '',
+      email: '',
+      phone: '',
+      cnic: '',
+      gender: '',
+      status: '',
+    });
+    setAddDriverFormOpen(0);
+
+  }
+
+
+  const handleAddDriverSubmit = async () => {
     const errors = validateForm();
 
     if (Object.keys(errors).length === 0) {
       // Add the new driver to the list
-      addDriver(newDriver);
+      const flag = await addDriver(newDriver)
 
-      // Clear the form and close it
-      setNewDriver({
-        fullname: '',
-        email: '',
-        phone: '',
-        cnic: '',
-        gender: '',
-      });
-      setAddDriverFormOpen(false);
+      if (flag) {
+        // Clear the form and close it
+        setNewDriver({
+          name: '',
+          email: '',
+          phone: '',
+          cnic: '',
+          gender: '',
+          status: '',
+        });
+        setAddDriverFormOpen(0);
 
-      // Display success SweetAlert
-      Swal.fire('Success', 'Driver added successfully!', 'success');
+
+        // Display success SweetAlert
+        Swal.fire('Success', 'Driver added successfully!', 'success');
+      }
+      else {
+        Swal.fire('Error', 'Driver with duplicate credentials already exists', 'errors');
+
+      }
+
     } else {
       // Display SweetAlert for validation errors
       let errorMessage = 'Please fill in all fields:\n';
@@ -93,6 +139,47 @@ const DriverList = ({ drivers, addDriver }) => {
     }
   };
 
+
+  const handleUpdateDriver = async (driver) => {
+    const errors = validateForm();
+
+    if (Object.keys(errors).length === 0) {
+      // Add the new driver to the list
+      try {
+        await updateDrivers(newDriver)
+        fetchDriver()
+
+        // Clear the form and close it
+        setNewDriver({
+          name: '',
+          email: '',
+          phone: '',
+          cnic: '',
+          gender: '',
+          status: '',
+        });
+        setAddDriverFormOpen(0);
+
+
+        // Display success SweetAlert
+        Swal.fire('Success', 'Driver updated successfully!', 'success');
+      } catch (error) {
+        Swal.fire('Error', 'Driver update failed as duplicate credentials already exist', 'errors');
+      }
+
+
+    } else {
+      // Display SweetAlert for validation errors
+      let errorMessage = 'Please fill in all fields:\n';
+      Object.values(errors).forEach((error) => {
+        errorMessage += `- ${error}\n`;
+      });
+
+      Swal.fire('Error', errorMessage, 'error');
+    }
+
+  }
+
   const handleRemoveDriver = (index) => {
     // Confirm before removing the driver
     Swal.fire({
@@ -103,14 +190,30 @@ const DriverList = ({ drivers, addDriver }) => {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, remove it!'
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         // Remove the driver from the list
-        const updatedDrivers = [...drivers];
-        updatedDrivers.splice(index, 1);
-        // Update the state with the modified list
-        addDriver(updatedDrivers);
-        Swal.fire('Deleted!', 'Driver has been removed.', 'success');
+
+        try {
+
+          await deleteDrivers(index);
+          fetchDriver();
+          Swal.fire('Deleted!', 'Driver has been removed.', 'success');
+
+        } catch (error) {
+
+          if (error.response.status === 404) {
+            Swal.fire('Error:', 'No such driver exists.', 'error');
+
+          }
+          else {
+            Swal.fire('Error:', 'An unexpected server error has occured.', 'error');
+
+          }
+
+        }
+
+
       }
     });
   };
@@ -125,21 +228,22 @@ const DriverList = ({ drivers, addDriver }) => {
       );
     }
 
-    return drivers.map((driver, index) => (
-      <tr key={index}>
-        <td>{driver.fullname}</td>
+    return drivers.map((driver) => (
+      <tr key={driver._id}>
+        <td>{driver.name}</td>
         <td>{driver.email}</td>
         <td>{driver.phone}</td>
         <td>{driver.cnic}</td>
         <td>{driver.gender}</td>
+        <td>{driver.status}</td>
         <td>
-          <button className="btn btn-danger btn-sm" onClick={() => handleRemoveDriver(index)}>
+          <button className="btn btn-danger btn-sm" onClick={() => handleRemoveDriver(driver._id)}>
             <FaTrash />
           </button>
         </td>
         <td>
           {/* Add the functionality for updating a driver here */}
-          <button className="btn btn-info btn-sm" disabled>
+          <button className="btn btn-info btn-sm" onClick={() => handleEditDriverClick(driver)}>
             <FaEdit />
           </button>
         </td>
@@ -149,22 +253,27 @@ const DriverList = ({ drivers, addDriver }) => {
 
   return (
     <div className="container mt-4">
-      <button className="btn btn-primary float-end" onClick={handleAddDriverClick}>
+      {isAddDriverFormOpen === 0 && <button className="btn btn-primary float-end" onClick={handleAddDriverClick}>
         + Driver
-      </button>
+      </button>}
 
-      {isAddDriverFormOpen && (
+
+      {/***** THE BELOW COMMENTED CODE IS MARKED FOR DELETION THIS IS JUST TO SHOW 
+ * THE POWER OF REFACTORING AND CLEAN CODE 
+ * ~Kashian beta dont use chat gpt blindly
+ *  */}
+      {/* {isAddDriverFormOpen && (
         <form className="mt-4">
           <div className="mb-3">
-            <label htmlFor="fullname" className="form-label">
+            <label htmlFor="name" className="form-label">
               Full Name:
             </label>
             <input
               type="text"
               className="form-control"
-              id="fullname"
-              name="fullname"
-              value={newDriver.fullname}
+              id="name"
+              name="name"
+              value={newDriver.name}
               onChange={handleFormChange}
             />
           </div>
@@ -230,6 +339,24 @@ const DriverList = ({ drivers, addDriver }) => {
             </select>
           </div>
 
+          <div className="mb-3">
+            <label htmlFor="status" className="form-label">
+              Status:
+            </label>
+            <select
+              className="form-select"
+              id="status"
+              name="status"
+              value={newDriver.status}
+              onChange={handleFormChange}
+            >
+              <option value="">Select Status</option>
+              <option value="Active">Active</option>
+              <option value="Not Active">Not Active</option>
+
+            </select>
+          </div>
+
           <button
             type="button"
             className="btn btn-success"
@@ -237,11 +364,36 @@ const DriverList = ({ drivers, addDriver }) => {
           >
             Submit
           </button>
+
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={handleCancelSubmit}
+          >
+            Cancel
+          </button>
         </form>
-      )}
+      )} */}
+
+      {isAddDriverFormOpen === 1 && <DriverForm
+        newDriver={newDriver}
+        handleFormChange={handleFormChange}
+        handleAddDriverSubmit={handleAddDriverSubmit}
+        handleCancelSubmit={handleCancelSubmit}
+      />}
+
+      {isAddDriverFormOpen === 2 && <DriverForm
+        newDriver={newDriver}
+        handleFormChange={handleFormChange}
+        handleAddDriverSubmit={handleUpdateDriver}
+        handleCancelSubmit={handleCancelSubmit}
+        ButtonName='Update'
+      />}
+
+
 
       {/* Display the list of drivers only if the form is closed */}
-      {!isAddDriverFormOpen && (
+      {isAddDriverFormOpen === 0 && (
         <table className="table mt-4">
           <thead>
             <tr>
@@ -250,8 +402,9 @@ const DriverList = ({ drivers, addDriver }) => {
               <th>Phone</th>
               <th>CNIC</th>
               <th>Gender</th>
-              <th>Action</th>
-              <th>Action</th>
+              <th>Status</th>
+              <th>Delete</th>
+              <th>Edit</th>
             </tr>
           </thead>
           <tbody>{renderDriverRows()}</tbody>
