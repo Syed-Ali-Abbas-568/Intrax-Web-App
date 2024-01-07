@@ -9,17 +9,63 @@ import CustomDrawer from '../components/Drawer';
 import DriverList from '../components/DriverList';  // Create a new component for displaying the list of drivers
 import '../components/Navbar.css';
 
+import { getDrivers, addDrivers } from '../services/DriverRequests'
+
 function Drivers() {
   const [drivers, setDrivers] = useState([]);  // State to manage the list of drivers
 
-  //useEffect()
+  //State to display any error that occurs due to call
+  const [error, setError] = useState(null);
+
+  const fetchData = async () => {
+    try {
+      // Call the API function from services
+      const driversData = await getDrivers();
+      setDrivers(driversData);
+    } catch (error) {
+      // Handle the error in a way that makes sense for your application
+      setError(error.message || 'An error occurred');
+    }
+  };
+
+
+
+  //use effect is used to mount and call functions on initial load of the page 
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
 
 
   // Function to add a new driver to the list
-  const addDriver = (driver) => {
-    setDrivers([...drivers, driver]);
+  const addDriver = async (driver) => {
+    try {
+      // Call the API function from services
+      await addDrivers(driver);
+      fetchData()
+
+      return true
+
+    } catch (error) {
+
+      if (error.response) {
+        if (error.response.status === 409) {
+          return false;
+        }
+
+      }
+      else {
+        setError(error.message || 'An error occurred');
+      }
+    }
+
   };
+
+  //Conditional Rendering if there is an error, Display on web page
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div>
@@ -32,7 +78,7 @@ function Drivers() {
       </Navbar>
 
       {/* Pass the drivers list and the addDriver function to the DriverList component */}
-      <DriverList drivers={drivers} addDriver={addDriver} />
+      <DriverList drivers={drivers} addDriver={addDriver} fetchDriver={fetchData} />
     </div>
   );
 }
