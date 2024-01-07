@@ -32,6 +32,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -41,41 +42,52 @@
   font-family: Poppins-Bold;
   src: url(../public/fonts/Inter-Bold.ttf);
 }
-.Poppins-Bold{
+
+.Poppins-Bold {
   font-family: Poppins-Bold;
 }
+
 @font-face {
   font-family: Itim;
   src: url(../public/fonts/Itim-Regular.ttf);
 }
-.Itim{
+
+.Itim {
   font-family: Itim;
 }
+
 @font-face {
   font-family: Inter-Regular;
   src: url(../public/fonts/Inter-Regular.ttf);
 }
-.Inter-Regular{
+
+.Inter-Regular {
   font-family: Inter-Regular;
 }
+
 @font-face {
   font-family: Inter-Bold;
   src: url(../public/fonts/Inter-Bold.ttf);
 }
-.Inter-Bold{
+
+.Inter-Bold {
   font-family: Inter-Bold;
 }
+
 @font-face {
   font-family: Inter-SemiBold;
   src: url(../public/fonts/Inter-SemiBold.ttf);
 }
-.Inter-SemiBold{
+
+.Inter-SemiBold {
   font-family: Inter-SemiBold;
 }
+
 @font-face {
   font-family: QuickSand;
   src: url(../public/fonts/Quicksand-Regular.ttf);
 }
-.Inter-SemiBold{
+
+.Inter-SemiBold {
   font-family: QuickSand;
 }

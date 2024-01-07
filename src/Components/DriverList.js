@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+
 import Swal from 'sweetalert2';
+
 import { FaTrash, FaEdit } from 'react-icons/fa';
 
 const DriverList = ({ drivers, addDriver }) => {
