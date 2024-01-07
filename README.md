@@ -1,4 +1,4 @@
-# Admin React.js Frontend
+# Intrax Admin Panal React.js Frontend
 
 This repository contains the frontend implementation for the admin interface of Intrax. It is built using React.js to provide a user-friendly and responsive admin dashboard.
 
