@@ -1,19 +1,20 @@
 import './App.css';
-import { BrowserRouter as Router, Route,Routes } from 'react-router-dom';
-import Homepage from './Pages/Homepage';
-import Login from './Pages/Login/Login';
-import HomepageStatic from './Pages/HomepageStatic';
-import Drivers from './Pages/Drivers';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+import Login from './pages/login/Login';
+import HomepageStatic from './pages/HomepageStatic'
+import Drivers from './pages/Drivers';
+import Homepage from './pages/Homepage';
 
 function App() {
   return (
     <Router>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/homepage" element={<HomepageStatic />} />
-          <Route path="/drivers" element={<Drivers />} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/homepage" element={<HomepageStatic />} />
+        <Route path="/drivers" element={<Drivers />} />
+      </Routes>
     </Router>
   );
 }

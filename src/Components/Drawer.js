@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -17,9 +18,11 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import MapIcon from '@mui/icons-material/Map';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+
 import { useNavigate } from 'react-router-dom';
-import customImage from '../imgs/drawericon.png';
-import adminpic from '../imgs/adminpic.png';
+
+import customImage from '../assets/drawericon.png';
+import adminpic from '../assets/adminpic.png';
 
 export default function CustomDrawer() {
   const [state, setState] = React.useState({
@@ -44,7 +47,7 @@ export default function CustomDrawer() {
     if (text === 'Logout') {
       handleLogoutClick();  // Call handleLogoutClick for the Logout button
     }
-    else if(text === 'Drivers') {
+    else if (text === 'Drivers') {
       navigate('/drivers');
     } else if (text === 'Monitoring') {
       navigate('/homepage');
@@ -87,7 +90,7 @@ export default function CustomDrawer() {
               primary="Admin"
               secondary="admin@gmail.com"
               primaryTypographyProps={{
-                style: { color: 'white', fontSize: '1rem' }, 
+                style: { color: 'white', fontSize: '1rem' },
               }}
               secondaryTypographyProps={{
                 style: { color: 'gray', fontSize: '0.6rem' },
@@ -99,7 +102,7 @@ export default function CustomDrawer() {
             />
             <IconButton
               color="inherit"
-              sx={{ margin: 'auto', display: 'block', fontSize: '0.6rem', border: '0.5px solid white','&:hover': { backgroundColor: 'white', color:'#352555'} }}
+              sx={{ margin: 'auto', display: 'block', fontSize: '0.6rem', border: '0.5px solid white', '&:hover': { backgroundColor: 'white', color: '#352555' } }}
               onClick={handleEditProfileClick}
             >
               Edit Profile <EditIcon />
@@ -128,7 +131,7 @@ export default function CustomDrawer() {
       </List>
     </Box>
   );
-//hello
+  //hello
   return (
     <div>
       <IconButton onClick={toggleDrawer('left', true)}>
