@@ -43,7 +43,7 @@ function CustomNavbar() {
         <CustomDrawer />
         <Container style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img src={navicon} alt="navicon" style={blinkingNaviconStyle} />
-          <span style={{ fontSize: '20px', color: 'white' }}>Monitoring...</span>
+          <span style={{ fontSize: '20px', color: 'white' }}>Monitoring</span>
         </Container>
       </Navbar>
     </div>
