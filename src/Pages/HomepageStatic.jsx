@@ -1,11 +1,16 @@
 import React from 'react';
-import '../Components/Navbar.css';
+
+import '../components/Navbar.css';
+
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import CustomDrawer from '../Components/Drawer';
 
-import navicon from '../imgs/navicon.png';
-import staticMapImage from '../imgs/maps.png';
+import navicon from '../assets/navicon.png';
+import staticMapImage from '../assets/maps.png';
+
+import CustomDrawer from '../components/Drawer';
+
+
 
 function CustomNavbar() {
   const backgroundStyle = {
