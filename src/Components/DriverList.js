@@ -193,7 +193,7 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
       Swal.fire('Error', errorMessage, 'error');
     }
   };
-  
+
   const handleRemoveDriver = (index) => {
     // Confirm before removing the driver
     Swal.fire({
@@ -267,15 +267,22 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
       )}
 
       {isAddDriverFormOpen === 1 && (
+        <>
+        <h3 className="text-center">Add Driver</h3>
+        <hr />
         <DriverForm
           newDriver={newDriver}
           handleFormChange={handleFormChange}
           handleAddDriverSubmit={handleAddDriverSubmit}
           handleCancelSubmit={handleCancelSubmit}
         />
+        </>
       )}
 
       {isAddDriverFormOpen === 2 && (
+        <>
+        <h3 className="text-center">Update Driver Details</h3>
+        <hr/>
         <DriverForm
           newDriver={newDriver}
           handleFormChange={handleFormChange}
@@ -283,10 +290,14 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
           handleCancelSubmit={handleCancelSubmit}
           ButtonName="Update"
         />
+        </>
       )}
 
       {/* Display the list of drivers only if the form is closed */}
       {isAddDriverFormOpen === 0 && (
+        <>
+        <h3 className="text-center">Drivers List</h3>
+        <hr/>
         <table className="table mt-4">
           <thead>
             <tr>
@@ -302,6 +313,7 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
           </thead>
           <tbody>{renderDriverRows()}</tbody>
         </table>
+        </>
       )}
     </div>
   );
