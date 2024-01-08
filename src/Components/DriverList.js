@@ -4,6 +4,8 @@ import { FaTrash, FaEdit } from 'react-icons/fa';
 import { deleteDrivers, updateDrivers } from '../services/DriverRequests';
 import DriverForm from './DriverForm';
 
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
 const DriverList = ({ drivers, addDriver, fetchDriver }) => {
   const [isAddDriverFormOpen, setAddDriverFormOpen] = useState(0);
 
@@ -91,36 +93,42 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
     const errors = validateForm();
 
     if (Object.keys(errors).length === 0) {
-      // Check phone number length
-      if (newDriver.phone.length >= 11) {
-        // Check CNIC length
-        if (newDriver.cnic.length === 15) {
-          const flag = await addDriver(newDriver);
+      // Check for valid email using emailRegex
+      if (emailRegex.test(newDriver.email)) {
+        // Check phone number length
+        if (newDriver.phone.length >= 11) {
+          // Check CNIC length
+          if (newDriver.cnic.length === 15) {
+            const flag = await addDriver(newDriver);
 
-          if (flag) {
-            // Clear the form and close it
-            setNewDriver({
-              name: '',
-              email: '',
-              phone: '',
-              cnic: '',
-              gender: '',
-              status: '',
-            });
-            setAddDriverFormOpen(0);
+            if (flag) {
+              // Clear the form and close it
+              setNewDriver({
+                name: '',
+                email: '',
+                phone: '',
+                cnic: '',
+                gender: '',
+                status: '',
+              });
+              setAddDriverFormOpen(0);
 
-            // Display success SweetAlert
-            Swal.fire('Success', 'Driver added successfully!', 'success');
+              // Display success SweetAlert
+              Swal.fire('Success', 'Driver added successfully!', 'success');
+            } else {
+              Swal.fire('Error', 'Driver with duplicate credentials already exists', 'error');
+            }
           } else {
-            Swal.fire('Error', 'Driver with duplicate credentials already exists', 'error');
+            // Display SweetAlert for CNIC length error
+            Swal.fire('Error', 'Please enter a valid CNIC', 'error');
           }
         } else {
-          // Display SweetAlert for CNIC length error
-          Swal.fire('Error', 'Please enter a valid CNIC', 'error');
+          // Display SweetAlert for phone number length error
+          Swal.fire('Error', 'Please enter a valid phone number', 'error');
         }
       } else {
-        // Display SweetAlert for phone number length error
-        Swal.fire('Error', 'Phone number length should be greater than or equal to 11 digits', 'error');
+        // Display SweetAlert for invalid email
+        Swal.fire('Error', 'Please enter a valid email address', 'error');
       }
     } else {
       // Display SweetAlert for validation errors
@@ -137,37 +145,43 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
     const errors = validateForm();
 
     if (Object.keys(errors).length === 0) {
-      // Check phone number length
-      if (newDriver.phone.length >= 11) {
-        // Check CNIC length
-        if (newDriver.cnic.length === 15) {
-          try {
-            await updateDrivers(newDriver);
-            fetchDriver();
+      // Check for valid email using emailRegex
+      if (emailRegex.test(newDriver.email)) {
+        // Check phone number length
+        if (newDriver.phone.length >= 11) {
+          // Check CNIC length
+          if (newDriver.cnic.length === 15) {
+            try {
+              await updateDrivers(newDriver);
+              fetchDriver();
 
-            // Clear the form and close it
-            setNewDriver({
-              name: '',
-              email: '',
-              phone: '',
-              cnic: '',
-              gender: '',
-              status: '',
-            });
-            setAddDriverFormOpen(0);
+              // Clear the form and close it
+              setNewDriver({
+                name: '',
+                email: '',
+                phone: '',
+                cnic: '',
+                gender: '',
+                status: '',
+              });
+              setAddDriverFormOpen(0);
 
-            // Display success SweetAlert
-            Swal.fire('Success', 'Driver updated successfully!', 'success');
-          } catch (error) {
-            Swal.fire('Error', 'Driver update failed as duplicate credentials already exist', 'error');
+              // Display success SweetAlert
+              Swal.fire('Success', 'Driver updated successfully!', 'success');
+            } catch (error) {
+              Swal.fire('Error', 'Driver update failed as duplicate credentials already exist', 'error');
+            }
+          } else {
+            // Display SweetAlert for CNIC length error
+            Swal.fire('Error', 'Please enter a valid CNIC', 'error');
           }
         } else {
-          // Display SweetAlert for CNIC length error
-          Swal.fire('Error', 'Please enter a valid CNIC', 'error');
+          // Display SweetAlert for phone number length error
+          Swal.fire('Error', 'Please enter a valid phone number', 'error');
         }
       } else {
-        // Display SweetAlert for phone number length error
-        Swal.fire('Error', 'Phone number length should be greater than or equal to 11 digits', 'error');
+        // Display SweetAlert for invalid email
+        Swal.fire('Error', 'Please enter a valid email address', 'error');
       }
     } else {
       // Display SweetAlert for validation errors
@@ -179,7 +193,7 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
       Swal.fire('Error', errorMessage, 'error');
     }
   };
-
+  
   const handleRemoveDriver = (index) => {
     // Confirm before removing the driver
     Swal.fire({
