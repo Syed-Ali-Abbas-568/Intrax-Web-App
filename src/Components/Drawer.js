@@ -1,5 +1,4 @@
-import * as React from 'react';
-
+import React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -20,6 +19,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 import customImage from '../assets/drawericon.png';
 import adminpic from '../assets/adminpic.png';
@@ -28,7 +28,7 @@ export default function CustomDrawer() {
   const [state, setState] = React.useState({
     left: false,
   });
-  const navigate = useNavigate();  // Initialize useNavigate
+  const navigate = useNavigate();
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -45,9 +45,8 @@ export default function CustomDrawer() {
   const handleListItemClick = (text) => () => {
     console.log(`${text} clicked`);
     if (text === 'Logout') {
-      handleLogoutClick();  // Call handleLogoutClick for the Logout button
-    }
-    else if (text === 'Drivers') {
+      handleLogoutClick();
+    } else if (text === 'Drivers') {
       navigate('/drivers');
     } else if (text === 'Monitoring') {
       navigate('/homepage');
@@ -56,11 +55,23 @@ export default function CustomDrawer() {
   };
 
   const handleLogoutClick = () => {
-    // Perform any logout logic if needed
-    // ...
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be logged out!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, logout!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Perform any logout logic if needed
+        // ...
 
-    // Navigate to the /login route
-    navigate('/login');
+        // Navigate to the /login route
+        navigate('/login');
+      }
+    });
   };
 
   const list = (anchor) => (
@@ -70,11 +81,9 @@ export default function CustomDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      {/* Section 1: User Information */}
       <List>
         <ListItem disablePadding>
           <ListItemButton sx={{ flexDirection: 'column', alignItems: 'center' }}>
-            {/* Centered Round Picture */}
             <Avatar
               src={adminpic}
               alt="Avatar"
@@ -111,7 +120,6 @@ export default function CustomDrawer() {
         </ListItem>
       </List>
       <Divider />
-      {/* Section 2: Navigation Buttons */}
       <List sx={{ backgroundColor: 'white', color: '#352555' }}>
         {[
           { text: 'Monitoring', icon: <VisibilityIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Monitoring') },
@@ -131,7 +139,7 @@ export default function CustomDrawer() {
       </List>
     </Box>
   );
-  //hello
+
   return (
     <div>
       <IconButton onClick={toggleDrawer('left', true)}>
