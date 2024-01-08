@@ -93,24 +93,30 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
     if (Object.keys(errors).length === 0) {
       // Check phone number length
       if (newDriver.phone.length >= 11) {
-        const flag = await addDriver(newDriver);
+        // Check CNIC length
+        if (newDriver.cnic.length === 15) {
+          const flag = await addDriver(newDriver);
 
-        if (flag) {
-          // Clear the form and close it
-          setNewDriver({
-            name: '',
-            email: '',
-            phone: '',
-            cnic: '',
-            gender: '',
-            status: '',
-          });
-          setAddDriverFormOpen(0);
+          if (flag) {
+            // Clear the form and close it
+            setNewDriver({
+              name: '',
+              email: '',
+              phone: '',
+              cnic: '',
+              gender: '',
+              status: '',
+            });
+            setAddDriverFormOpen(0);
 
-          // Display success SweetAlert
-          Swal.fire('Success', 'Driver added successfully!', 'success');
+            // Display success SweetAlert
+            Swal.fire('Success', 'Driver added successfully!', 'success');
+          } else {
+            Swal.fire('Error', 'Driver with duplicate credentials already exists', 'error');
+          }
         } else {
-          Swal.fire('Error', 'Driver with duplicate credentials already exists', 'error');
+          // Display SweetAlert for CNIC length error
+          Swal.fire('Error', 'Please enter a valid CNIC', 'error');
         }
       } else {
         // Display SweetAlert for phone number length error
@@ -133,25 +139,31 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
     if (Object.keys(errors).length === 0) {
       // Check phone number length
       if (newDriver.phone.length >= 11) {
-        try {
-          await updateDrivers(newDriver);
-          fetchDriver();
+        // Check CNIC length
+        if (newDriver.cnic.length === 15) {
+          try {
+            await updateDrivers(newDriver);
+            fetchDriver();
 
-          // Clear the form and close it
-          setNewDriver({
-            name: '',
-            email: '',
-            phone: '',
-            cnic: '',
-            gender: '',
-            status: '',
-          });
-          setAddDriverFormOpen(0);
+            // Clear the form and close it
+            setNewDriver({
+              name: '',
+              email: '',
+              phone: '',
+              cnic: '',
+              gender: '',
+              status: '',
+            });
+            setAddDriverFormOpen(0);
 
-          // Display success SweetAlert
-          Swal.fire('Success', 'Driver updated successfully!', 'success');
-        } catch (error) {
-          Swal.fire('Error', 'Driver update failed as duplicate credentials already exist', 'error');
+            // Display success SweetAlert
+            Swal.fire('Success', 'Driver updated successfully!', 'success');
+          } catch (error) {
+            Swal.fire('Error', 'Driver update failed as duplicate credentials already exist', 'error');
+          }
+        } else {
+          // Display SweetAlert for CNIC length error
+          Swal.fire('Error', 'Please enter a valid CNIC', 'error');
         }
       } else {
         // Display SweetAlert for phone number length error
