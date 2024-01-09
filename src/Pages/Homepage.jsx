@@ -11,7 +11,14 @@ import navicon from '../assets/navicon.png';
 
 import { MapContainer, TileLayer } from 'react-leaflet';
 
+import { useEffect } from 'react';
+
 export default function Homepage() {
+
+
+
+
+
   return (
     <div>
 

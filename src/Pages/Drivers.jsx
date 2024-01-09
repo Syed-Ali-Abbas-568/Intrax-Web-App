@@ -17,6 +17,8 @@ function Drivers() {
   //State to display any error that occurs due to call
   const [error, setError] = useState(null);
 
+
+
   const fetchData = async () => {
     try {
       // Call the API function from services
@@ -33,7 +35,11 @@ function Drivers() {
   //use effect is used to mount and call functions on initial load of the page 
 
   useEffect(() => {
+
+
+
     fetchData()
+
   }, [])
 
 
