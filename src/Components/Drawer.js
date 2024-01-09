@@ -23,8 +23,13 @@ import Swal from 'sweetalert2';
 
 import customImage from '../assets/drawericon.png';
 import adminpic from '../assets/adminpic.png';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function CustomDrawer() {
+
+  const { dispatch } = useAuthContext()
+
+
   const [state, setState] = React.useState({
     left: false,
   });
@@ -65,10 +70,9 @@ export default function CustomDrawer() {
       confirmButtonText: 'Yes, logout!',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Perform any logout logic if needed
-        // ...
 
-        // Navigate to the /login route
+        dispatch({ type: 'LOGOUT', payload: null })
+
         navigate('/login');
       }
     });

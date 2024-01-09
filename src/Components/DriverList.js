@@ -4,6 +4,9 @@ import { FaTrash, FaEdit } from 'react-icons/fa';
 import { deleteDrivers, updateDrivers } from '../services/DriverRequests';
 import DriverForm from './DriverForm';
 
+
+
+
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 const DriverList = ({ drivers, addDriver, fetchDriver }) => {
@@ -268,51 +271,51 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
 
       {isAddDriverFormOpen === 1 && (
         <>
-        <h3 className="text-center">Add Driver</h3>
-        <hr />
-        <DriverForm
-          newDriver={newDriver}
-          handleFormChange={handleFormChange}
-          handleAddDriverSubmit={handleAddDriverSubmit}
-          handleCancelSubmit={handleCancelSubmit}
-        />
+          <h3 className="text-center">Add Driver</h3>
+          <hr />
+          <DriverForm
+            newDriver={newDriver}
+            handleFormChange={handleFormChange}
+            handleAddDriverSubmit={handleAddDriverSubmit}
+            handleCancelSubmit={handleCancelSubmit}
+          />
         </>
       )}
 
       {isAddDriverFormOpen === 2 && (
         <>
-        <h3 className="text-center">Update Driver Details</h3>
-        <hr/>
-        <DriverForm
-          newDriver={newDriver}
-          handleFormChange={handleFormChange}
-          handleAddDriverSubmit={handleUpdateDriver}
-          handleCancelSubmit={handleCancelSubmit}
-          ButtonName="Update"
-        />
+          <h3 className="text-center">Update Driver Details</h3>
+          <hr />
+          <DriverForm
+            newDriver={newDriver}
+            handleFormChange={handleFormChange}
+            handleAddDriverSubmit={handleUpdateDriver}
+            handleCancelSubmit={handleCancelSubmit}
+            ButtonName="Update"
+          />
         </>
       )}
 
       {/* Display the list of drivers only if the form is closed */}
       {isAddDriverFormOpen === 0 && (
         <>
-        <h3 className="text-center">Drivers List</h3>
-        <hr/>
-        <table className="table mt-4">
-          <thead>
-            <tr>
-              <th>Full Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>CNIC</th>
-              <th>Gender</th>
-              <th>Status</th>
-              <th>Delete</th>
-              <th>Edit</th>
-            </tr>
-          </thead>
-          <tbody>{renderDriverRows()}</tbody>
-        </table>
+          <h3 className="text-center">Drivers List</h3>
+          <hr />
+          <table className="table mt-4">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>CNIC</th>
+                <th>Gender</th>
+                <th>Status</th>
+                <th>Delete</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>{renderDriverRows()}</tbody>
+          </table>
         </>
       )}
     </div>
