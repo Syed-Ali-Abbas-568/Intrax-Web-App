@@ -4,18 +4,11 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 
 import navicon from '../assets/navicon.png';
-import staticMapImage from '../assets/maps.png';
+import Map from '../components/Map'; // Import the Map component
 
 import CustomDrawer from '../components/Drawer';
 
 function CustomNavbar() {
-  const backgroundStyle = {
-    backgroundImage: `url(${staticMapImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '100vh',
-  };
-
   const blinkingNaviconStyle = {
     width: '50px',
     height: '50px',
@@ -23,7 +16,7 @@ function CustomNavbar() {
   };
 
   return (
-    <div style={backgroundStyle}>
+    <div>
       <style>
         {`
           @keyframes blink {
@@ -42,10 +35,13 @@ function CustomNavbar() {
       <Navbar className="custom-bg">
         <CustomDrawer />
         <Container style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* Use the Map component here */}
           <img src={navicon} alt="navicon" style={blinkingNaviconStyle} />
           <span style={{ fontSize: '20px', color: 'white' }}>Monitoring</span>
         </Container>
+        
       </Navbar>
+      <Map/>
     </div>
   );
 }
