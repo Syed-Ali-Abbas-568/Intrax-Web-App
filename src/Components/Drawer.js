@@ -56,9 +56,6 @@ export default function CustomDrawer() {
     } else if (text === 'Monitoring') {
       navigate('/homepage');
     }
-    else if (text === 'Stations') {
-      navigate('/addstation');
-    }
     // Add other conditions for different list items
   };
 
