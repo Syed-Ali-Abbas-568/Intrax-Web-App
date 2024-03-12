@@ -6,6 +6,7 @@ import { useAuthContext } from './hooks/useAuthContext';
 import Login from './pages/login/Login';
 import HomepageStatic from './pages/HomepageStatic'
 import Drivers from './pages/Drivers';
+import Buses from './pages/Buses'
 import { Toaster } from 'react-hot-toast';
 //import Homepage from './pages/Homepage';
 
@@ -33,6 +34,8 @@ function App() {
             element={user ? <HomepageStatic /> : <Navigate to='/login' />} />
           <Route path="/drivers"
             element={user ? <Drivers /> : <Navigate to='/login' />} />
+          <Route path="/buses"
+            element={user ? <Buses /> : <Navigate to='/login' />} />
         </Routes>
       </Router>
     </>
