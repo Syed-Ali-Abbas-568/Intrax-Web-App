@@ -70,7 +70,7 @@ const BusForm = ({
 
       <FormField
         label="Manufacturer Year"
-        type="text"
+        type="number"
         id="manufacturerYear"
         name="manufacturerYear"
         value={newBus.manufacturerYear}

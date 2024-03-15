@@ -49,6 +49,43 @@ const BusList = ({ buses, addBus, fetchBus }) => {
   };
 
   const handleAddBusSubmit = async () => {
+    if (!newBus.busNumber) {
+      Swal.fire('Error', 'Please enter bus number', 'error');
+      return;
+    }
+    if (!newBus.busModel) {
+      Swal.fire('Error', 'Please enter bus model', 'error');
+      return;
+    }
+    if (!newBus.maintenanceSchedule) {
+      Swal.fire('Error', 'Please enter maintenance schedule', 'error');
+      return;
+    }
+    if (!newBus.licensePlateNumber) {
+      Swal.fire('Error', 'Please enter license plate number', 'error');
+      return;
+    }
+    if (!newBus.manufacturerYear) {
+      Swal.fire('Error', 'Please enter manufacturer year', 'error');
+      return;
+    }
+    if (!newBus.gpsDeviceId) {
+      Swal.fire('Error', 'Please enter GPS device ID', 'error');
+      return;
+    }
+    if (!newBus.typeOfBus) {
+      Swal.fire('Error', 'Please select type of bus', 'error');
+      return;
+    }
+    if (!newBus.capacity) {
+      Swal.fire('Error', 'Please select capacity', 'error');
+      return;
+    }
+    if (!newBus.status) {
+      Swal.fire('Error', 'Please select status', 'error');
+      return;
+    }
+  
     try {
       await addBus(newBus);
       fetchBus();
@@ -72,6 +109,42 @@ const BusList = ({ buses, addBus, fetchBus }) => {
   };
 
   const handleUpdateBus = async () => {
+    if (!newBus.busNumber) {
+      Swal.fire('Error', 'Please enter bus number', 'error');
+      return;
+    }
+    if (!newBus.busModel) {
+      Swal.fire('Error', 'Please enter bus model', 'error');
+      return;
+    }
+    if (!newBus.maintenanceSchedule) {
+      Swal.fire('Error', 'Please enter maintenance schedule', 'error');
+      return;
+    }
+    if (!newBus.licensePlateNumber) {
+      Swal.fire('Error', 'Please enter license plate number', 'error');
+      return;
+    }
+    if (!newBus.manufacturerYear) {
+      Swal.fire('Error', 'Please enter manufacturer year', 'error');
+      return;
+    }
+    if (!newBus.gpsDeviceId) {
+      Swal.fire('Error', 'Please enter GPS device ID', 'error');
+      return;
+    }
+    if (!newBus.typeOfBus) {
+      Swal.fire('Error', 'Please select type of bus', 'error');
+      return;
+    }
+    if (!newBus.capacity) {
+      Swal.fire('Error', 'Please select capacity', 'error');
+      return;
+    }
+    if (!newBus.status) {
+      Swal.fire('Error', 'Please select status', 'error');
+      return;
+    }
     try {
       await updateBus(newBus);
       fetchBus();
