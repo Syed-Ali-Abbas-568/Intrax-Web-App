@@ -85,27 +85,31 @@ const BusList = ({ buses, addBus, fetchBus }) => {
       Swal.fire('Error', 'Please select status', 'error');
       return;
     }
-  
     try {
-      await addBus(newBus);
-      fetchBus();
+    const flag = await addBus(newBus);
+    if (flag) {
       setNewBus({
-        busNumber: '',
-        busModel: '',
-        maintenanceSchedule: '',
-        licensePlateNumber: '',
-        manufacturerYear: '',
-        gpsDeviceId: '',
-        typeOfBus: '',
-        capacity: '',
-        status:'',
-      });
-      setAddBusFormOpen(0);
+      busNumber: '',
+      busModel: '',
+      maintenanceSchedule: '',
+      licensePlateNumber: '',
+      manufacturerYear: '',
+      gpsDeviceId: '',
+      typeOfBus: '',
+      capacity: '',
+      status:'',
+    });
+    setAddBusFormOpen(0);
       Swal.fire('Success', 'Bus added successfully!', 'success');
-    } catch (error) {
-      console.error('Error adding bus:', error);
-      Swal.fire('Error', 'Failed to add bus', 'error');
-    }
+  }
+      else {
+        Swal.fire('Error', 'Bus with duplicate credentials already exists', 'error');
+      }
+      
+}catch(error){
+  console.error('Error adding bus:', error);
+  Swal.fire('Error', 'Failed to add bus', 'error');
+}
   };
 
   const handleUpdateBus = async () => {
