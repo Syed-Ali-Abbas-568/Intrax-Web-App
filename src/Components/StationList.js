@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-import { FaTrash } from 'react-icons/fa';
 import StationForm from './StationForm';
 
 const StationList = ({ stations, addStation, fetchStation }) => {
@@ -10,7 +9,7 @@ const StationList = ({ stations, addStation, fetchStation }) => {
     name: '',
     latitude: '',
     longitude: '',
-    description:''
+    description: '',
   });
 
   const handleAddStationClick = () => {
@@ -27,7 +26,7 @@ const StationList = ({ stations, addStation, fetchStation }) => {
       name: '',
       latitude: '',
       longitude: '',
-      description:''
+      description: '',
     });
     setAddStationFormOpen(false);
   };
@@ -35,12 +34,11 @@ const StationList = ({ stations, addStation, fetchStation }) => {
   const handleAddStationSubmit = async () => {
     try {
       await addStation(newStation);
-      fetchStation();
       setNewStation({
         name: '',
         latitude: '',
         longitude: '',
-        description:''
+        description: '',
       });
       setAddStationFormOpen(false);
       Swal.fire('Success', 'Station added successfully!', 'success');

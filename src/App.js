@@ -38,7 +38,7 @@ function App() {
           <Route path="/buses"
             element={user ? <Buses /> : <Navigate to='/login' />} />
           <Route path="/stations"
-            element={user ? <Stations /> : <Navigate to='/login' />} />
+            element={ <Stations />}/>
         </Routes>
       </Router>
     </>
