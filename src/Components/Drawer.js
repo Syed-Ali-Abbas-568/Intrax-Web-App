@@ -64,6 +64,9 @@ export default function CustomDrawer() {
     else if (text === 'Buses') {
       navigate('/buses');
     }
+    else if (text === 'Stations') {
+      navigate('/stations');
+    }
     // Add other conditions for different list items
   };
 

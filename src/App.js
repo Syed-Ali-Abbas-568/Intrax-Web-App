@@ -7,6 +7,7 @@ import Login from './pages/login/Login';
 import HomepageStatic from './pages/HomepageStatic'
 import Drivers from './pages/Drivers';
 import Buses from './pages/Buses'
+import Stations from './pages/Stations'
 import { Toaster } from 'react-hot-toast';
 //import Homepage from './pages/Homepage';
 
@@ -36,6 +37,8 @@ function App() {
             element={user ? <Drivers /> : <Navigate to='/login' />} />
           <Route path="/buses"
             element={user ? <Buses /> : <Navigate to='/login' />} />
+          <Route path="/stations"
+            element={user ? <Stations /> : <Navigate to='/login' />} />
         </Routes>
       </Router>
     </>
