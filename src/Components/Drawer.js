@@ -12,11 +12,12 @@ import Avatar from '@mui/material/Avatar';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import driverIcon from '../assets/drivericon.png'
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import MapIcon from '@mui/icons-material/Map';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import BusIcon from '@mui/icons-material/DirectionsBus'
 
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -24,6 +25,10 @@ import Swal from 'sweetalert2';
 import customImage from '../assets/drawericon.png';
 import adminpic from '../assets/adminpic.png';
 import { useAuthContext } from '../hooks/useAuthContext';
+
+const DriverIcon = () => {
+  return <img src={driverIcon} alt="Driver" width={20}/>
+};
 
 export default function CustomDrawer() {
 
@@ -55,6 +60,9 @@ export default function CustomDrawer() {
       navigate('/drivers');
     } else if (text === 'Monitoring') {
       navigate('/homepage');
+    }
+    else if (text === 'Buses') {
+      navigate('/buses');
     }
     // Add other conditions for different list items
   };
@@ -127,7 +135,8 @@ export default function CustomDrawer() {
       <List sx={{ backgroundColor: 'white', color: '#352555' }}>
         {[
           { text: 'Monitoring', icon: <VisibilityIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Monitoring') },
-          { text: 'Drivers', icon: <DirectionsBusIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Drivers') },
+          { text: 'Buses', icon: <BusIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Buses') },
+          { text: 'Drivers', icon: <DriverIcon sx={{ color: '#352555' }}/>, onClick: handleListItemClick('Drivers') },
           { text: 'Assignments', icon: <AssignmentIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Assignments') },
           { text: 'Routes', icon: <MapIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Routes') },
           { text: 'Stations', icon: <LocationOnIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Stations') },
