@@ -7,6 +7,7 @@ import navicon from '../assets/navicon.png';
 import Map from '../components/Map'; // Import the Map component
 
 import CustomDrawer from '../components/Drawer';
+import { getStations} from '../services/StationRequests';
 
 function CustomNavbar() {
   const blinkingNaviconStyle = {
@@ -14,20 +15,21 @@ function CustomNavbar() {
     height: '50px',
     animation: 'blink 1s infinite',
   };
-
+  
   const [stations, setStations] = useState([]);
+  const [error, setError] = useState(null);
+
+  const fetchData = async () => {
+    try {
+      const stationsData = await getStations();
+      setStations(stationsData);
+    } catch (error) {
+      setError(error.message || 'An error occurred');
+    }
+  };
 
   useEffect(() => {
-    // Fetch station data from your API or any other source
-    // Example:
-    const fetchedStations = [
-      { id:1, name: 'University of Education Station', lat: 31.45373167740481, lng: 74.29976828174222, desc:'College Road'},
-      { id:2, name: 'Canal View Station', lat: 31.47378752023184, lng: 74.25045209984319, desc:'Canal Rd, Canal View'},
-      { id:3, name: 'Judicial Colony Station', lat: 31.46999917790142, lng: 74.24480873214583, desc:'8, Block A Judicial Colony'},
-      { id:4, name: 'FAST-NUCES Station', lat: 31.481640119526258, lng: 74.30300336728763, desc:'Faisal Town'},
-      // Add more station objects as needed
-    ];
-    setStations(fetchedStations);
+    fetchData();
   }, []);
 
   return (
