@@ -1,0 +1,52 @@
+.title {
+    text-align: center;
+}
+
+.title-holder {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 10px 10px;
+}
+
+.RoutePageHolder {
+
+    margin: 0px 100px;
+
+}
+
+.RouteDetails {
+    margin: 20px 100px;
+}
+
+
+.option {
+    display: flex;
+    margin: auto 0px;
+    justify-content: space-around;
+    max-width: 600px;
+
+
+}
+
+
+
+.checkbox {
+    position: relative;
+    vertical-align: middle;
+    max-height: 20px;
+}
+
+.label {
+    min-width: 80%;
+
+}
+
+
+.buttonright {
+    float: right
+}
+
+.formstyle {
+    margin-top: 20px
+}

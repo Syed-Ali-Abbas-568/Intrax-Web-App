@@ -10,6 +10,7 @@ import { Toaster } from 'react-hot-toast';
 //import Homepage from './pages/Homepage';
 
 import axios from 'axios';
+import RoutePage from './pages/routePage/RoutePage';
 
 
 axios.defaults.withCredentials = true;
@@ -33,6 +34,8 @@ function App() {
             element={user ? <HomepageStatic /> : <Navigate to='/login' />} />
           <Route path="/drivers"
             element={user ? <Drivers /> : <Navigate to='/login' />} />
+          <Route path="/routes"
+            element={<RoutePage />} />
         </Routes>
       </Router>
     </>

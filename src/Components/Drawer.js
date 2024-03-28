@@ -57,6 +57,11 @@ export default function CustomDrawer() {
       navigate('/homepage');
     }
     // Add other conditions for different list items
+
+
+    else if (text === "Routes") {
+      navigate('/routes')
+    }
   };
 
   const handleLogoutClick = () => {
