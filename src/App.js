@@ -6,6 +6,8 @@ import { useAuthContext } from './hooks/useAuthContext';
 import Login from './pages/login/Login';
 import HomepageStatic from './pages/HomepageStatic'
 import Drivers from './pages/Drivers';
+import Buses from './pages/Buses'
+import Stations from './pages/Stations'
 import { Toaster } from 'react-hot-toast';
 //import Homepage from './pages/Homepage';
 
@@ -36,6 +38,10 @@ function App() {
             element={user ? <Drivers /> : <Navigate to='/login' />} />
           <Route path="/routes"
             element={<RoutePage />} />
+          <Route path="/buses"
+            element={user ? <Buses /> : <Navigate to='/login' />} />
+          <Route path="/stations"
+            element={<Stations />} />
         </Routes>
       </Router>
     </>

@@ -1,6 +1,9 @@
 import React from 'react'
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
 import stationIcon from '../assets/station.png'
+
+
+
 const containerStyle = {
   width: '100vw',
   height: '88vh'
@@ -42,7 +45,7 @@ function Map({stations}) {
         {stations.map((station) => (
           <Marker
           key={station.id}
-          position={{ lat: station.lat, lng: station.lng }}
+          position={{ lat: station.latitude, lng: station.longitude }}
           icon={{
             url: stationIcon,
             scaledSize: new window.google.maps.Size(50, 50),
@@ -54,14 +57,14 @@ function Map({stations}) {
       ))}
       {selectedStation && (
         <InfoWindow
-          position={{ lat: selectedStation.lat, lng: selectedStation.lng }}
+          position={{ lat: selectedStation.latitude, lng: selectedStation.longitude }}
           onCloseClick={() => {
             setSelectedStation(null);
           }}
         >
           <div>
             <h4>{selectedStation.name}</h4>
-            <p>{selectedStation.desc}</p>
+            <p>{selectedStation.description}</p>
           </div>
         </InfoWindow>
       )}
