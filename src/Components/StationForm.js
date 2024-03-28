@@ -16,6 +16,10 @@ const StationForm = ({ newStation, handleFormChange, handleSubmit, handleCancel 
           <label htmlFor="longitude" className="form-label">Longitude:</label>
           <input type="text" className="form-control" id="longitude" name="longitude" value={newStation.longitude} onChange={handleFormChange} required />
         </div>
+        <div className="mb-3">
+          <label htmlFor="description" className="form-description">Description:</label>
+          <input type="text" className="form-control" id="description" name="description" value={newStation.description} onChange={handleFormChange} required />
+        </div>
         <div className="text-center">
           <button type="submit" className="btn btn-primary mx-2">Submit</button>
           <button type="button" className="btn btn-secondary mx-2" onClick={handleCancel}>Cancel</button>

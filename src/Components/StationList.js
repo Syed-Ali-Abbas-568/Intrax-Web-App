@@ -9,7 +9,8 @@ const StationList = ({ stations, addStation, fetchStation }) => {
   const [newStation, setNewStation] = useState({
     name: '',
     latitude: '',
-    longitude: ''
+    longitude: '',
+    description:''
   });
 
   const handleAddStationClick = () => {
@@ -25,7 +26,8 @@ const StationList = ({ stations, addStation, fetchStation }) => {
     setNewStation({
       name: '',
       latitude: '',
-      longitude: ''
+      longitude: '',
+      description:''
     });
     setAddStationFormOpen(false);
   };
@@ -37,7 +39,8 @@ const StationList = ({ stations, addStation, fetchStation }) => {
       setNewStation({
         name: '',
         latitude: '',
-        longitude: ''
+        longitude: '',
+        description:''
       });
       setAddStationFormOpen(false);
       Swal.fire('Success', 'Station added successfully!', 'success');
@@ -63,6 +66,7 @@ const StationList = ({ stations, addStation, fetchStation }) => {
         <td>{station.name}</td>
         <td>{station.latitude}</td>
         <td>{station.longitude}</td>
+        <td>{station.description}</td>
       </tr>
     ));
   };
@@ -98,6 +102,7 @@ const StationList = ({ stations, addStation, fetchStation }) => {
                 <th>Name</th>
                 <th>Latitude</th>
                 <th>Longitude</th>
+                <th>Description</th>
               </tr>
             </thead>
             <tbody>{renderStationRows()}</tbody>
