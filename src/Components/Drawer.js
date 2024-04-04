@@ -27,7 +27,7 @@ import adminpic from '../assets/adminpic.png';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 const DriverIcon = () => {
-  return <img src={driverIcon} alt="Driver" width={20}/>
+  return <img src={driverIcon} alt="Driver" width={20} />
 };
 
 export default function CustomDrawer() {
@@ -144,10 +144,10 @@ export default function CustomDrawer() {
         {[
           { text: 'Monitoring', icon: <VisibilityIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Monitoring') },
           { text: 'Buses', icon: <BusIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Buses') },
-          { text: 'Drivers', icon: <DriverIcon sx={{ color: '#352555' }}/>, onClick: handleListItemClick('Drivers') },
+          { text: 'Drivers', icon: <DriverIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Drivers') },
           { text: 'Assignments', icon: <AssignmentIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Assignments') },
-          { text: 'Routes', icon: <MapIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Routes') },
           { text: 'Stations', icon: <LocationOnIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Stations') },
+          { text: 'Routes', icon: <MapIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Routes') },
           { text: 'Logout', icon: <ExitToAppIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Logout') },
         ].map((item) => (
           <ListItem key={item.text} disablePadding>
