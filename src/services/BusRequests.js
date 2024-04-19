@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = 'http://localhost:8001/bus';
+const API_BASE_URL = 'https://intrax-server.vercel.app/bus';
 
 export const getBuses = async () => {
     try {

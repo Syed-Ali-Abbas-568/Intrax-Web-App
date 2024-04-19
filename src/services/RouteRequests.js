@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_BASE_URL = 'http://localhost:8001/route';
+const API_BASE_URL = 'https://intrax-server.vercel.app/route';
 
 export const getRoutes = async () => {
 
