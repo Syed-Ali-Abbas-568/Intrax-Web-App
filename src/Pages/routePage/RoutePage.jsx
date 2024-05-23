@@ -130,6 +130,7 @@ function RoutePage() {
                         <div className="RouteDetails">
                             <h2>Route: {selectedRoute.name} </h2>
                             <h2>Stations</h2>
+
                             <ol>
                                 {selectedRoute.stations.map(stationId => (
                                     <li key={stationId}>
