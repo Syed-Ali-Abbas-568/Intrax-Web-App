@@ -1,5 +1,13 @@
 import axios from "axios";
+
+import { GoogleAPIKey } from "../constants/map_constant";
+
+import { getDirections } from "../helpers/routeCalculater"
+
+
+
 const API_BASE_URL = 'https://intrax-server.vercel.app/route';
+
 
 export const getRoutes = async () => {
 
@@ -20,7 +28,49 @@ export const getRoutes = async () => {
 export const addRoutes = async (newRouteData) => {
 
     try {
-        const response = await axios.post(`${API_BASE_URL}/add`, newRouteData);
+
+
+        // Extract station IDs from the route object
+        const { name, stations } = newRouteData;
+
+        // Map through station IDs and fetch station data for each
+        const stationDataPromises = stations.map(stationID => getStationByID(stationID));
+        const stationData = await Promise.all(stationDataPromises);
+
+
+
+
+
+
+        // Create a new route object with station information
+        const routeWithStationData = {
+            name,
+            stations: stationData
+        };
+
+
+
+
+
+        //convert direction into string and now store direction into database
+        const direction = await getDirections(routeWithStationData);
+        const directionString = JSON.stringify(direction)
+
+
+        // console.log(JSON.stringify(directions));
+
+
+
+        const routewithDirection = {
+            name,
+            stations: stationData,
+            directions: directionString
+
+        };
+
+
+        //adds newRoute Data to database
+        const response = await axios.post(`${API_BASE_URL}/add`, routewithDirection);
         return response.status;
 
     } catch (error) {
@@ -35,7 +85,7 @@ export const addRoutes = async (newRouteData) => {
 
 export const getStationByID = async (stationID) => {
     try {
-        const response = await axios.get(`http://localhost:8001/station/${stationID}`)
+        const response = await axios.get(`https://intrax-server.vercel.app/station/${stationID}`)
         return response.data;
     } catch (error) {
         console.error('Error fectching information of given station', error);
@@ -64,7 +114,7 @@ export const getRouteByID = async (routeID) => {
 export const getAllStations = async () => {
 
     try {
-        const response = await axios.get(`http://localhost:8001/station/view`);
+        const response = await axios.get(`https://intrax-server.vercel.app/station/view`);
         return response.data;
 
     } catch (error) {
