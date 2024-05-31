@@ -6,7 +6,7 @@ import { getDirections } from "../helpers/routeCalculater"
 
 
 
-const API_BASE_URL = 'https://intrax-server.vercel.app/route';
+const API_BASE_URL = 'http://localhost:8001/route';
 
 
 export const getRoutes = async () => {
@@ -85,7 +85,7 @@ export const addRoutes = async (newRouteData) => {
 
 export const getStationByID = async (stationID) => {
     try {
-        const response = await axios.get(`https://intrax-server.vercel.app/station/${stationID}`)
+        const response = await axios.get(`http://localhost:8001/station/${stationID}`)
         return response.data;
     } catch (error) {
         console.error('Error fectching information of given station', error);
@@ -114,7 +114,7 @@ export const getRouteByID = async (routeID) => {
 export const getAllStations = async () => {
 
     try {
-        const response = await axios.get(`https://intrax-server.vercel.app/station/view`);
+        const response = await axios.get(`http://localhost:8001/station/view`);
         return response.data;
 
     } catch (error) {
