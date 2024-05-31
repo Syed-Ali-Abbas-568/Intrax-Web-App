@@ -14,44 +14,7 @@ import { getRoutes } from '../services/RouteRequests';
 
 
 
-const sampleRoute = [
-  {
-    name: "Route 1",
-    stations: [
-      {
-        stationName: "Station A",
-        Latitude: 31.483781108996123,
-        Longitude: 74.30316429996317
-      },
-      {
-        stationName: "Station B",
-        Latitude: 31.48185056083811,
-        Longitude: 74.29943602937237
-      },
 
-    ]
-  },
-  {
-    name: "Route 2",
-    stations: [
-      {
-        stationName: "Station X",
-        Latitude: 31.477792620013588,
-        Longitude: 74.30114191435048
-      },
-      {
-        stationName: "Station Y",
-        Latitude: 31.48480126408731,
-        Longitude: 74.30089515098588
-      },
-      {
-        stationName: "Station Z",
-        Latitude: 31.55480671320017,
-        Longitude: 74.30474737053487
-      }
-    ]
-  }
-];
 
 
 
@@ -68,22 +31,28 @@ function CustomNavbar() {
   const [stations, setStations] = useState([]);
   const [routes, setRoute] = useState([])
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true)
+
+
+  async function fetchData() {
+    try {
+      const stationsData = await getStations();
+      setStations(stationsData);
+
+
+      const routeData = await getRoutes();
+      setRoute(routeData)
+      setLoading(false)
+    } catch (error) {
+      setError(error.message || 'An error occurred');
+    }
+  };
+
+
+
 
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const stationsData = await getStations();
-        setStations(stationsData);
-
-
-        const routeData = await getRoutes();
-        setRoute(routeData)
-      } catch (error) {
-        setError(error.message || 'An error occurred');
-      }
-    };
-
 
 
     fetchData();

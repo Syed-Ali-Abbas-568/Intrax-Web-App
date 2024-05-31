@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const API_BASE_URL = 'https://intrax-server.vercel.app/driver';
+const API_BASE_URL = 'http://localhost:8001/driver';
 
 export const getDrivers = async () => {
 

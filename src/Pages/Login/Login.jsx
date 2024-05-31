@@ -42,7 +42,7 @@ export default function Login() {
       setError('');
       console.log(credentials)
       try {
-        const response = await axios.post('https://intrax-server.vercel.app/login', credentials);
+        const response = await axios.post('http://localhost:8001/login', credentials);
 
 
         if (response.data.error) {
