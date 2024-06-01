@@ -8,17 +8,18 @@ import { GoogleAPIKey } from "../constants/map_constant";
 
 import stationIcon from '../assets/station.png'
 import busIcon from '../assets/bus.png'
-import React, { useState, useEffect } from "react";
-import { GoogleMap, Marker, LoadScript, Polyline, InfoWindow } from "@react-google-maps/api";
+import React, { useState, useEffect, useContext } from "react";
+import { Marker, LoadScript, Polyline, InfoWindow } from "@react-google-maps/api";
+import { GoogleMap } from "@react-google-maps/api";
 import { getBuses } from "../services/BusRequests";
 
-
+import GoogleMapsContext from "../context/GoogleMapContext";
 
 
 const Map = ({ stations, routes }) => {
 
 
-
+  const isLoaded = useContext(GoogleMapsContext);
 
   const [map, setMap] = useState(null);
   const [directions, setDirections] = useState([]);
@@ -27,18 +28,7 @@ const Map = ({ stations, routes }) => {
 
   const [loading, setLoading] = useState(true)
 
-  // Load directions from localStorage on component mount
-  useEffect(() => {
-    const storedDirections = JSON.parse(localStorage.getItem('directions'));
-    if (storedDirections) {
-      setDirections(storedDirections);
-    }
-  }, []);
 
-  // Save directions to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('directions', JSON.stringify(directions));
-  }, [directions]);
 
   const mapStyles = {
     width: '100vw',
@@ -71,48 +61,26 @@ const Map = ({ stations, routes }) => {
 
   useEffect(() => {
 
-    console.log("hallo")
 
     // Extracting the "directions" attribute from each JSON object
     let data = routes.map(obj => JSON.parse(obj.directions));
-    console.log(data)
+
     setDirections(data)
 
-    if (map && routes.length > 0) {
+
+
+
+    if (routes.length > 0) {
       setLoading(false)
     }
 
-    // if (map && route && route.length > 0) {
-    //   route.forEach(routeItem => {
-    //     const bounds = new window.google.maps.LatLngBounds();
-    //     routeItem.stations.forEach(station => {
-    //       bounds.extend({ lat: station.Latitude, lng: station.Longitude });
-    //     });
-    //     map.fitBounds(bounds);
+    setLoading(false);
 
-    //     const directionsService = new window.google.maps.DirectionsService();
-    //     const waypoints = routeItem.stations.map(station => ({
-    //       location: { lat: station.Latitude, lng: station.Longitude },
-    //       stopover: true
-    //     }));
 
-    //     const request = {
-    //       origin: waypoints.shift().location,
-    //       destination: waypoints.pop().location,
-    //       waypoints: waypoints,
-    //       travelMode: 'DRIVING'
-    //     };
 
-    //     directionsService.route(request, (result, status) => {
-    //       if (status === 'OK') {
-    //         setDirections(prevDirections => [...prevDirections, result.routes[0]]);
-    //       } else {
-    //         console.error('Directions request failed due to ' + status);
-    //       }
-    //     });
-    //   });
-    // }
+
   }, [routes]);
+
 
 
 
@@ -159,34 +127,58 @@ const Map = ({ stations, routes }) => {
 
 
 
+  const [selectedPosition, setSelectedPosition] = useState(null);
+
+  //Display the route information when a certain route is clicked
+  const handlePolylineClick = (rIndex) => (event) => {
+    setSelectedPosition({
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+      rIndex: rIndex
+    });
+  };
 
 
+
+
+
+  if (!isLoaded) {
+    return <div>Loading...</div>; // Show a loading message until the API is loaded
+  }
 
 
 
 
   return (
-    <LoadScript googleMapsApiKey={GoogleAPIKey}>
-      <GoogleMap
-        defaultBounds={initialBounds}
-        mapContainerStyle={mapStyles}
-        zoom={15}
-        center={buses.display ? false : defaultCenter}
-        onLoad={map => setMap(map)}
+
+    <GoogleMap
+      defaultBounds={initialBounds}
+      mapContainerStyle={mapStyles}
+      zoom={15}
+      center={buses.display ? false : defaultCenter}
+
+    // onLoad={map => setMap(map)}
 
 
-      >
+    >
 
-        {!loading && directions.map((route, rIndex) => (
-          <React.Fragment key={rIndex}>
+      {!loading && directions.map((route, rIndex) => (
+        <React.Fragment key={rIndex}>
 
 
-            {console.log("Route Index:", route)}
-            {route.legs.map((leg, lIndex) => (
-              <React.Fragment key={lIndex}>
-                {/* {console.log("Leg Index:", lIndex)} */}
+          {console.log("Route Index:", route)}
+          {route.legs.map((leg, lIndex) => (
+
+            <React.Fragment key={lIndex}>
+
+
+
+
+              <>
                 {leg.steps.map((step, sIndex) => (
+
                   <Polyline
+                    onClick={handlePolylineClick(rIndex)}
                     key={sIndex}
                     path={step.path.map(point => ({
                       lat: point.lat,//
@@ -194,93 +186,43 @@ const Map = ({ stations, routes }) => {
                     }))}
                     options={{
                       strokeColor: getColorForRoute(rIndex), // Use rIndex here
-                      strokeOpacity: 2,
+                      strokeOpacity: 0.2,
                       strokeWeight: 5 + rIndex
                     }}
                   />
+
+
+
+
+
+
+
+
                 ))}
-              </React.Fragment>
-            ))}
-          </React.Fragment>
-        ))}
 
 
 
 
+              </>
+            </React.Fragment>
+          ))}
 
 
-
-
-
-
-
-
-
-        {stations.map((station) => (
-          <Marker
-            key={station.id}
-            position={{ lat: station.latitude, lng: station.longitude }}
-            icon={{
-              url: stationIcon,
-              scaledSize: new window.google.maps.Size(50, 50),
-            }}
-            onClick={() => {
-              setSelectedStation(station);
-            }}
-          />
-        ))}
-
-
-
-
-        {selectedStation && (
-          <InfoWindow
-            position={{ lat: selectedStation.latitude, lng: selectedStation.longitude }}
-            onCloseClick={() => {
-              setSelectedStation(null);
-            }}
+          {selectedPosition && (<InfoWindow
+            position={selectedPosition}
+            onCloseClick={() => setSelectedPosition(null)}
           >
             <div>
-              <h4>{selectedStation.name}</h4>
-              <p>{selectedStation.description}</p>
+              <h4>Route Info</h4>
+              <p>Route Name: {routes[selectedPosition.rIndex].name}</p>
+
             </div>
           </InfoWindow>
-        )}
+          )
+          }
 
-
-
-
-
-        {buses.display && buses.busData.map((bus) => (
-          <Marker
-            key={bus.id}
-            position={{ lat: bus.latitude, lng: bus.longitude }}
-            icon={{
-              url: busIcon,
-              scaledSize: new window.google.maps.Size(25, 25),
-            }}
-            onClick={() => {
-              setSelectedBus(bus);
-            }}
-          />
-        ))}
-
-
-
-
-        {selectedBus && (
-          <InfoWindow
-            position={{ lat: selectedBus.latitude, lng: selectedBus.longitude }}
-            onCloseClick={() => {
-              setSelectedBus(null);
-            }}
-          >
-            <div>
-              <h4>{selectedBus.busNumber}</h4>
-              <p>{selectedBus.licensePlateNumber}</p>
-            </div>
-          </InfoWindow>
-        )}
+        </React.Fragment>
+      ))}
 
 
 
@@ -289,8 +231,86 @@ const Map = ({ stations, routes }) => {
 
 
 
-      </GoogleMap>
-    </LoadScript >
+
+
+
+
+
+      {stations.map((station) => (
+        <Marker
+          key={station.id}
+          position={{ lat: station.latitude, lng: station.longitude }}
+          icon={{
+            url: stationIcon,
+            scaledSize: new window.google.maps.Size(50, 50),
+          }}
+          onClick={() => {
+            setSelectedStation(station);
+          }}
+        />
+      ))}
+
+
+
+
+      {selectedStation && (
+        <InfoWindow
+          position={{ lat: selectedStation.latitude, lng: selectedStation.longitude }}
+          onCloseClick={() => {
+            setSelectedStation(null);
+          }}
+        >
+          <div>
+            <h4>{selectedStation.name}</h4>
+            <p>{selectedStation.description}</p>
+          </div>
+        </InfoWindow>
+      )}
+
+
+
+
+
+      {buses.display && buses.busData.map((bus) => (
+        <Marker
+          key={bus.id}
+          position={{ lat: bus.latitude, lng: bus.longitude }}
+          icon={{
+            url: busIcon,
+            scaledSize: new window.google.maps.Size(25, 25),
+          }}
+          onClick={() => {
+            setSelectedBus(bus);
+          }}
+        />
+      ))}
+
+
+
+
+      {selectedBus && (
+        <InfoWindow
+          position={{ lat: selectedBus.latitude, lng: selectedBus.longitude }}
+          onCloseClick={() => {
+            setSelectedBus(null);
+          }}
+        >
+          <div>
+            <h4>{selectedBus.busNumber}</h4>
+            <p>{selectedBus.licensePlateNumber}</p>
+          </div>
+        </InfoWindow>
+      )}
+
+
+
+
+
+
+
+
+    </GoogleMap>
+
   );
 };
 
