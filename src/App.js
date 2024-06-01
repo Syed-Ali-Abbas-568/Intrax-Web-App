@@ -8,6 +8,7 @@ import HomepageStatic from './pages/HomepageStatic'
 import Drivers from './pages/Drivers';
 import Buses from './pages/Buses'
 import Stations from './pages/Stations'
+import Assignments from './pages/Assignments'
 import { Toaster } from 'react-hot-toast';
 
 
@@ -42,6 +43,8 @@ function App() {
             element={user ? <Buses /> : <Navigate to='/login' />} />
           <Route path="/stations"
             element={<Stations />} />
+          <Route path="/assignments"
+            element={<Assignments />} />
         </Routes>
       </Router>
     </>
