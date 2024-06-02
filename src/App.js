@@ -48,6 +48,8 @@ function App() {
               element={user ? <Buses /> : <Navigate to='/login' />} />
             <Route path="/stations"
               element={<Stations />} />
+              <Route path="/assignments"
+              element={<Assignments />} />
           </Routes>
         </Router>
 

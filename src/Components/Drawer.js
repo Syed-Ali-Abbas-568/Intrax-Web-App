@@ -10,7 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import EditIcon from '@mui/icons-material/Edit';
+// import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import driverIcon from '../assets/drivericon.png'
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -48,9 +48,9 @@ export default function CustomDrawer() {
     setState({ ...state, [anchor]: open });
   };
 
-  const handleEditProfileClick = () => {
-    console.log('Edit Profile clicked');
-  };
+  // const handleEditProfileClick = () => {
+  //   console.log('Edit Profile clicked');
+  // };
 
   const handleListItemClick = (text) => () => {
     console.log(`${text} clicked`);
@@ -132,13 +132,13 @@ export default function CustomDrawer() {
                 fontSize: '0.6rem',
               }}
             />
-            <IconButton
+            {/* <IconButton
               color="inherit"
               sx={{ margin: 'auto', display: 'block', fontSize: '0.6rem', border: '0.5px solid white', '&:hover': { backgroundColor: 'white', color: '#352555' } }}
               onClick={handleEditProfileClick}
             >
               Edit Profile <EditIcon />
-            </IconButton>
+            </IconButton> */}
           </ListItemButton>
         </ListItem>
       </List>
