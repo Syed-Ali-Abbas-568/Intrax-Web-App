@@ -7,6 +7,7 @@ import AssignmentList from '../components/AssignmentList';
 import { getAllDetailedAssignments, addAssignment } from '../services/AssignmentRequests';
 import { getBuses } from '../services/BusRequests';
 import { getRoutes } from '../services/RouteRequests';
+import Assignment from '@mui/icons-material/Assignment';
 import '../components/Navbar.css';
 
 function Assignments() {
@@ -52,6 +53,7 @@ function Assignments() {
       <Navbar className="custom-bg">
         <CustomDrawer />
         <Container style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Assignment style={{ color: 'BB1E10', width: '50px', height: '50px' }} />
           <Typography variant="h6" style={{ color: 'white' }}>Manage Assignments</Typography>
         </Container>
       </Navbar>
