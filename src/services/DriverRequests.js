@@ -2,6 +2,7 @@ import axios from "axios";
 
 
 const API_BASE_URL = 'http://localhost:8001/driver';
+const API_BASE_URL2 = 'http://localhost:8001/assignment';
 
 export const getDrivers = async () => {
 
@@ -74,4 +75,14 @@ export const updateDrivers = async (driver) => {
         throw error;
     }
 
+};
+
+export const getAllDetailedAssignments = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL2}/viewdata`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching detailed assignments:', error);
+        throw error;
+    }
 };

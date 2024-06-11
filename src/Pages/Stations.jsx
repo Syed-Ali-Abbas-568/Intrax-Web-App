@@ -5,13 +5,13 @@ import PlaceIcon from '@mui/icons-material/Place';
 
 import CustomDrawer from '../components/Drawer';
 import StationList from '../components/StationList';
-import { getStations, addStation } from '../services/StationRequests';
+import { getStations, addStation, updateStation, deleteStation } from '../services/StationRequests';
 
 function Stations() {
   const [stations, setStations] = useState([]);
   const [error, setError] = useState(null);
 
-  const fetchData = async () => {
+  const fetchStations = async () => {
     try {
       const stationsData = await getStations();
       setStations(stationsData);
@@ -21,13 +21,35 @@ function Stations() {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchStations();
   }, []);
 
   const addNewStation = async (station) => {
     try {
       await addStation(station);
-      fetchData();
+      fetchStations();
+      return true;
+    } catch (error) {
+      setError(error.message || 'An error occurred');
+      return false;
+    }
+  };
+
+  const updateExistingStation = async (station) => {
+    try {
+      await updateStation(station);
+      fetchStations();
+      return true;
+    } catch (error) {
+      setError(error.message || 'An error occurred');
+      return false;
+    }
+  };
+
+  const deleteExistingStation = async (id) => {
+    try {
+      await deleteStation(id);
+      fetchStations();
       return true;
     } catch (error) {
       setError(error.message || 'An error occurred');
@@ -48,7 +70,13 @@ function Stations() {
           <span style={{ fontSize: '20px', color: 'white' }}>Manage Stations</span>
         </Container>
       </Navbar>
-      <StationList stations={stations} addStation={addNewStation} />
+      <StationList
+        stations={stations}
+        addStation={addNewStation}
+        updateStation={updateExistingStation}
+        deleteStation={deleteExistingStation}
+        fetchStations={fetchStations}
+      />
     </div>
   );
 }
