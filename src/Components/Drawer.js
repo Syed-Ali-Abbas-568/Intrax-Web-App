@@ -10,6 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 // import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import driverIcon from '../assets/drivericon.png'
@@ -71,7 +72,9 @@ export default function CustomDrawer() {
       navigate('/assignments');
     }
     // Add other conditions for different list items
-
+    else if (text === "Feedbacks") {
+      navigate('/feedbacks')
+    }
 
     else if (text === "Routes") {
       navigate('/routes')
@@ -151,6 +154,7 @@ export default function CustomDrawer() {
           { text: 'Assignments', icon: <AssignmentIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Assignments') },
           { text: 'Stations', icon: <LocationOnIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Stations') },
           { text: 'Routes', icon: <MapIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Routes') },
+          { text: 'Feedbacks', icon: <FeedbackIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Feedbacks') },
           { text: 'Logout', icon: <ExitToAppIcon sx={{ color: '#352555' }} />, onClick: handleListItemClick('Logout') },
         ].map((item) => (
           <ListItem key={item.text} disablePadding>

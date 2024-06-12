@@ -9,6 +9,7 @@ import Drivers from './pages/Drivers';
 import Buses from './pages/Buses'
 import Stations from './pages/Stations'
 import Assignments from './pages/Assignments'
+import Feedbacks from './pages/Feedbacks'
 import { Toaster } from 'react-hot-toast';
 
 
@@ -50,6 +51,8 @@ function App() {
               element={<Stations />} />
               <Route path="/assignments"
               element={<Assignments />} />
+              <Route path="/feedbacks"
+              element={<Feedbacks />} />
           </Routes>
         </Router>
 
