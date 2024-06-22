@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { deleteDrivers, updateDrivers } from '../services/DriverRequests';
+import { getAllDetailedAssignments } from '../services/AssignmentRequests';
 import DriverForm from './DriverForm';
 
 
@@ -11,7 +12,7 @@ const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 const DriverList = ({ drivers, addDriver, fetchDriver }) => {
   const [isAddDriverFormOpen, setAddDriverFormOpen] = useState(0);
-
+  const [assignments, setAssignments] = useState([]);
   const [newDriver, setNewDriver] = useState({
     name: '',
     email: '',
@@ -225,6 +226,18 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
       }
     });
   };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+  const fetchAssignments = async () => {
+    try {
+      const assignmentData = await getAllDetailedAssignments();
+      setAssignments(assignmentData);
+    } catch (error) {
+      console.error('Error fetching assignments:', error);
+    }
+  };
 
   // Helper function to render the table rows
   const renderDriverRows = () => {
@@ -238,27 +251,31 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
       );
     }
 
-    return drivers.map((driver) => (
-      <tr key={driver._id}>
-        <td>{driver.name}</td>
-        <td>{driver.email}</td>
-        <td>{driver.phone}</td>
-        <td>{driver.cnic}</td>
-        <td>{driver.gender}</td>
-        <td>{driver.status}</td>
-        <td>
-          <button className="btn btn-danger btn-sm" onClick={() => handleRemoveDriver(driver._id)}>
-            <FaTrash />
-          </button>
-        </td>
-        <td>
-          {/* Add the functionality for updating a driver here */}
-          <button className="btn btn-info btn-sm" onClick={() => handleEditDriverClick(driver)}>
-            <FaEdit />
-          </button>
-        </td>
-      </tr>
-    ));
+    return drivers.map((driver) => {
+      const shift = assignments.find((assignment) => assignment._id === driver.shift);
+      const shiftName = shift ? shift.shiftname : 'No Shift Assigned';
+      return (
+        <tr key={driver._id}>
+          <td>{driver.name}</td>
+          <td>{driver.email}</td>
+          <td>{driver.phone}</td>
+          <td>{driver.cnic}</td>
+          <td>{driver.gender}</td>
+          <td>{driver.status}</td>
+          <td>{shiftName}</td>
+          <td>
+            <button className="btn btn-danger btn-sm" onClick={() => handleRemoveDriver(driver._id)}>
+              <FaTrash />
+            </button>
+          </td>
+          <td>
+            <button className="btn btn-info btn-sm" onClick={() => handleEditDriverClick(driver)}>
+              <FaEdit />
+            </button>
+          </td>
+        </tr>
+      );
+    });
   };
 
   return (
@@ -302,18 +319,19 @@ const DriverList = ({ drivers, addDriver, fetchDriver }) => {
           <h3 className="text-center">Drivers List</h3>
           <hr />
           <table className="table mt-4">
-            <thead>
-              <tr>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>CNIC</th>
-                <th>Gender</th>
-                <th>Status</th>
-                <th>Delete</th>
-                <th>Edit</th>
-              </tr>
-            </thead>
+          <thead>
+               <tr>
+                 <th>Name</th>
+                 <th>Email</th>
+                 <th>Phone</th>
+                 <th>CNIC</th>
+                 <th>Gender</th>
+                 <th>Status</th>
+                 <th>Shift</th>
+                 <th>Delete</th>
+                 <th>Edit</th>
+               </tr>
+             </thead>
             <tbody>{renderDriverRows()}</tbody>
           </table>
         </>

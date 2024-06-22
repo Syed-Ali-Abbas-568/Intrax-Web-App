@@ -12,81 +12,81 @@ import '../components/Navbar.css';
 import { getDrivers, addDrivers } from '../services/DriverRequests'
 
 function Drivers() {
-    const [drivers, setDrivers] = useState([]);  // State to manage the list of drivers
+  const [drivers, setDrivers] = useState([]);  // State to manage the list of drivers
 
-    //State to display any error that occurs due to call
-    const [error, setError] = useState(null);
-
-
-
-    const fetchData = async () => {
-        try {
-            // Call the API function from services
-            const driversData = await getDrivers();
-            setDrivers(driversData);
-        } catch (error) {
-            // Handle the error in a way that makes sense for your application
-            setError(error.message || 'An error occurred');
-        }
-    };
+  //State to display any error that occurs due to call
+  const [error, setError] = useState(null);
 
 
 
-    //use effect is used to mount and call functions on initial load of the page 
+  const fetchData = async () => {
+    try {
+      // Call the API function from services
+      const driversData = await getDrivers();
+      setDrivers(driversData);
+    } catch (error) {
+      // Handle the error in a way that makes sense for your application
+      setError(error.message || 'An error occurred');
+    }
+  };
 
-    useEffect(() => {
+
+
+  //use effect is used to mount and call functions on initial load of the page 
+
+  useEffect(() => {
 
 
 
-        fetchData()
+    fetchData()
 
-    }, [])
+  }, [])
 
 
 
-    // Function to add a new driver to the list
-    const addDriver = async (driver) => {
-        try {
-            // Call the API function from services
-            await addDrivers(driver);
-            fetchData()
+  // Function to add a new driver to the list
+  const addDriver = async (driver) => {
+    try {
+      // Call the API function from services
+      await addDrivers(driver);
+      fetchData()
 
-            return true
+      return true
 
-        } catch (error) {
+    } catch (error) {
 
-            if (error.response) {
-                if (error.response.status === 409) {
-                    return false;
-                }
-
-            }
-            else {
-                setError(error.message || 'An error occurred');
-            }
+      if (error.response) {
+        if (error.response.status === 409) {
+          return false;
         }
 
-    };
-
-    //Conditional Rendering if there is an error, Display on web page
-    if (error) {
-        return <div>Error: {error}</div>;
+      }
+      else {
+        setError(error.message || 'An error occurred');
+      }
     }
 
-    return (
-        <div>
-            <Navbar className="custom-bg">
-                <CustomDrawer />
-                <Container style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <DirectionsBusIcon style={{ color: 'BB1E10', width: '50px', height: '50px' }} />
-                    <span style={{ fontSize: '20px', color: 'white' }}>Manage Drivers</span>
-                </Container>
-            </Navbar>
+  };
 
-            {/* Pass the drivers list and the addDriver function to the DriverList component */}
-            <DriverList drivers={drivers} addDriver={addDriver} fetchDriver={fetchData} />
-        </div>
-    );
+  //Conditional Rendering if there is an error, Display on web page
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  return (
+    <div>
+      <Navbar className="custom-bg">
+        <CustomDrawer />
+        <Container style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <DirectionsBusIcon style={{ color: 'BB1E10', width: '50px', height: '50px' }} />
+          <span style={{ fontSize: '20px', color: 'white' }}>Manage Drivers</span>
+        </Container>
+      </Navbar>
+
+      {/* Pass the drivers list and the addDriver function to the DriverList component */}
+      <DriverList drivers={drivers} addDriver={addDriver} fetchDriver={fetchData} />
+    </div>
+  );
 }
 
 export default Drivers;
